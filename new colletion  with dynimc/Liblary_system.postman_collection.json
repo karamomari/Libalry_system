@@ -1,0 +1,514 @@
+{
+	"info": {
+		"_postman_id": "99af7c6e-3df7-4753-b06b-1ef3ea8e9fe5",
+		"name": "Liblary_system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34870968"
+	},
+	"item": [
+		{
+			"name": "add_new_book",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"let BookId = Math.floor(Math.random() * 1000); \r",
+							"let TitleBook = pm.variables.replaceIn('{{$randomJobTitle}}');\r",
+							"let NameBook=pm.variables.replaceIn('{{$randomFullName}}')\r",
+							"\r",
+							"pm.environment.set(\"BookID\", BookId);\r",
+							"pm.environment.set(\"TitleBook\", TitleBook);\r",
+							"pm.environment.set(\"NameBook\",NameBook);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"\r",
+							"if (response.book && response.book.id) { \r",
+							"pm.environment.set(\"BookID\", response.book.id);\r",
+							"console.log(\"✅ تم حفظ BookID:\", pm.environment.get(\"BookID\"));\r",
+							"} else {\r",
+							"    console.log(\"❌ error BookID\");\r",
+							"}\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"{{BookID}}\",\r\n    \"name\":\"{{NameBook}}\",\r\n    \"title\":\"{{TitleBook}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all books",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get book by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/books/{{BookID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"books",
+						"{{BookID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update book by id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let NameBook=pm.variables.replaceIn('{{$randomFullName}}')\r",
+							"let TitleBook = pm.variables.replaceIn('{{$randomJobTitle}}');\r",
+							"\r",
+							"pm.environment.set(\"NameBookToUpdate\",NameBook);\r",
+							"pm.environment.set(\"TitleBookToUpdate\", TitleBook);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{NameBookToUpdate}}\",\r\n    \"title\": \"{{TitleBookToUpdate}}\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/books/{{BookID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"books",
+						"{{BookID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/books/{{BookID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"books",
+						"{{BookID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add bookshop",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let City = pm.variables.replaceIn('{{$randomCity}}');\r",
+							"let NameBookShop = pm.variables.replaceIn('{{$randomFirstName}}');\r",
+							"let ContactNumber = Math.floor(1000000 + Math.random() * 9000000).toString();\r",
+							"let Email = pm.variables.replaceIn('{{$randomEmail}}');\r",
+							"let Address = pm.variables.replaceIn('{{$randomStreetAddress}}');\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"City\", City);\r",
+							"pm.environment.set(\"NameBookShop\", NameBookShop);\r",
+							"pm.environment.set(\"Email\",Email);\r",
+							"pm.environment.set(\"ContactNumber\",ContactNumber);\r",
+							"pm.environment.set(\"Address\",Address);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response = pm.response.json();\r",
+							"\r",
+							"if (response && response.shop_id) { \r",
+							"pm.environment.set(\"BookShopID\", response.shop_id);\r",
+							"console.log(\"BookShopID:\", pm.environment.get(\"BookID\"));\r",
+							"} else {\r",
+							"    console.log(\"❌ error BookID\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"city\": \"{{City}}\",\r\n    \"name\": \"{{NameBookShop}}\",\r\n    \"contactNumber\": \"{{ContactNumber}}\",\r\n    \"email\": \"{{Email}}\",\r\n    \"address\": \"{{Address}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/bookshop",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"bookshop"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all city",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get bookshop by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/bookshop/{{BookShopID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"bookshop",
+						"{{BookShopID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get bookshop by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/bookshop/name/{{NameBookShop}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"bookshop",
+						"name",
+						"{{NameBookShop}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get bookshop by email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/bookshop/email/{{Email}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"bookshop",
+						"email",
+						"{{Email}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update bookshop email",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let EmailToUpadte = pm.variables.replaceIn('{{$randomEmail}}');\r",
+							"pm.environment.set(\"EmailToUpadte\",EmailToUpadte);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"{{EmailToUpadte}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/bookshop/{{BookShopID}}/email",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"bookshop",
+						"{{BookShopID}}",
+						"email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update bookshop name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let NameBookShopToUpadte = pm.variables.replaceIn('{{$randomEmail}}');\r",
+							"pm.environment.set(\"NameBookShopToUpadte\",NameBookShopToUpadte);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"{{NameBookShopToUpadte}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3002/bookshop/{{BookShopID}}/name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"bookshop",
+						"{{BookShopID}}",
+						"name"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete one shop",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3002/bookshop/{{BookShopID}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3002",
+					"path": [
+						"bookshop",
+						"{{BookShopID}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BookID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NameBook",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TitleBook",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "NameBookToUpdate",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "TitleBookToUpdate",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

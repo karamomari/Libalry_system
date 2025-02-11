@@ -1,7 +1,6 @@
 const express = require("express")
 
 const mysql = require("mysql2")
-// const mysql = require("mysql");
 
 const app = express()
 
@@ -37,12 +36,19 @@ app.post("/books", (req, res) => {
 
     const query = "insert into books (id,name,title) values (?,?,?)"
 
-    connection.query(query, [id, name, title], (err) => {
+    connection.query(query, [id, name, title], (err, results) => {
         if (err) {
             return res.status(500).json({ error: "error adding new book", details: err.message })
         }
 
-        res.status(201).json({ message: "book has been added" })
+        res.status(201).json({
+            message: "book has been added",
+            book: {
+                id: id,
+                name: name,
+                title: title
+            }
+        })
     })
 })
 
@@ -87,7 +93,7 @@ app.get("/books/:id", (req, res) => {
 
         }
 
-        res.json(results[0])
+        res.json(results)
 
     })
 })
